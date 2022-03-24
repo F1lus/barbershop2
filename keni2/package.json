@@ -18,7 +18,7 @@
     "web-vitals": "^2.1.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true&&SSL_CRT_FILE=_wildcard__kenisbarbershop_hu_c0d4b_12d6b_1632348761_d183f1424bdb56fcb46650ed991ec4d7.crt&&SSL_KEY_FILE=c0d4b_12d6b_2b2bf5b4f1f881468dd2c4ff58e1ef58.key react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

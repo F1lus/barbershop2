@@ -173,3 +173,7 @@ a{
     font-size: 200px;
 }
 
+.z-max{
+    z-index: 100000;
+}
+

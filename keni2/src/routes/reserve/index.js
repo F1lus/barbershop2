@@ -1,10 +1,10 @@
 import DW from "./DateWorker"
 
-import { useCallback, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
 import { motion } from "framer-motion"
-import { Col, Container, Row, Form, Button, InputGroup, Modal } from "react-bootstrap"
+import { Col, Container, Row, Form, Button, InputGroup, ToastContainer, Toast} from "react-bootstrap"
 
 import API from '../../api'
 import useDates from "./useDates"
@@ -31,6 +31,18 @@ const Reserve = () => {
     const worker = useMemo(() => new DW(), [])
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+
+        let timeout
+
+        if(show){
+            timeout = setTimeout(() => setShow(s => !s), 5000)
+        }
+
+        return () => clearTimeout(timeout)
+
+    }, [show])
 
     const dateSelect = useCallback((event, date) => {
         event.preventDefault()
@@ -158,7 +170,9 @@ const Reserve = () => {
             return
         }
 
-        if (!form.services || !form.services === -1) {
+        if (!form.services || form.services === services[0]) {
+            setErr('no-service')
+            setShow(true)
             return
         }
 
@@ -166,8 +180,9 @@ const Reserve = () => {
             .then(res => {
                 let data = res.data
 
-                if(data.error){
+                if (data.error) {
                     setErr(data.error)
+                    console.log(data.error)
                     setShow(true)
                     return
                 }
@@ -175,7 +190,7 @@ const Reserve = () => {
                 if (data.result) {
                     const date = data.date.start.split("T")[0]
                     navigate(`/confirm?date=${date}&time=${data.time}&service=${services.indexOf(form.services)}`)
-                }else{
+                } else {
                     setErr('Network Error')
                     setShow(true)
                 }
@@ -185,28 +200,18 @@ const Reserve = () => {
             })
     }, [form, currentDay, navigate, setErr])
 
-    const handleClose = useCallback(e => {
-        setShow(false)
-    },[])
-
     return (
         <motion.div>
             <Container fluid className="text-white mt-5">
 
-                <Modal show={show}>
-                    <Modal.Header className="bg-dark text-white">
-                        <Modal.Title>Hiba történt a foglalás során</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body className="bg-dark text-white">
-                        {err}
-                        <br/>
-                    </Modal.Body>
-                    <Modal.Footer className="bg-dark text-white">
-                        <Button variant="warning" onClick={handleClose}>
-                            Bezárás
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
+            <ToastContainer className="p-5 z-max position-fixed" position="top-center">
+                        <Toast animation show={show} bg="danger" autohide>
+                            <Toast.Header closeButton={false}>
+                                <strong className="me-auto">Hiba!</strong>
+                            </Toast.Header>
+                            <Toast.Body>{err}</Toast.Body>
+                        </Toast>
+            </ToastContainer>
 
                 <Row className="justify-content-center mt-5">
                     <Col lg={6} md={6} sm={12}>
