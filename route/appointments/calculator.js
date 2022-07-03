@@ -15,7 +15,7 @@ const { DateTime } = require('luxon')
     while (start.toMillis() < end.toMillis()) {
         times.push({
             start: start,
-            end: start.plus({ minutes: serviceTime-1 })
+            end: start.plus({ minutes: serviceTime })
         })
 
         start = start.plus({ minutes: serviceTime })
@@ -59,7 +59,7 @@ const formatAppoimtnents = appointments => {
     return appointments.map(appointment => {
         return {
             start: appointment.start.toFormat('HH:mm'),
-            end: appointment.end.plus({ minutes: 1 }).toFormat('HH:mm')
+            end: appointment.end.toFormat('HH:mm')
         }
     })
 }

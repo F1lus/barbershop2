@@ -17,7 +17,7 @@ const getInterval = (time, date) => {
     const eMins = parseInt(jsonTime.end.split(':')[1])
 
     const start = date.set({ hour: sHours, minute: sMins }).toISO()
-    const end = date.set({ hour: eHours, minute: eMins-1 }).toISO()
+    const end = date.set({ hour: eHours, minute: eMins }).toISO()
 
     return [start, end, jsonTime]
 }
