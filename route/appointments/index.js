@@ -30,7 +30,6 @@ manager.post('/appointments', (req, res) => {
     let times = getAppointments(dateTime)
 
     const start = dateTime.toISO()
-    console.log(start)
     const end = dateTime.plus({ day: 1 }).minus({ second: 1 }).toISO()
 
     calendar.getEvents(start, end, true)
@@ -47,8 +46,6 @@ manager.post('/appointments', (req, res) => {
                 res.send({ appointment: [] })
                 return
             }
-
-            console.log(events)
 
             if (!events || events.length === 0) {
                 res.send({ appointment: formatAppoimtnents(times) })
