@@ -34,10 +34,13 @@ const getAppointments = dateTime => {
 
     switch (dateTime.weekday) {
         case 1:
-        case 2:
-        case 3:
             start = dateTime.set({ hour: 12, minute: 0, second: 0 })
             end = dateTime.set({ hour: 20, minute: 0, second: 0 })
+            break
+        case 2:
+        case 3:
+            start = dateTime.set({ hour: 10, minute: 0, second: 0 })
+            end = dateTime.set({ hour: 18, minute: 0, second: 0 })
             break
         case 4:
             start = dateTime.set({ hour: 8, minute: 0, second: 0 })
